@@ -1591,7 +1591,9 @@
   </style>
 </head>
 
-<body>
+<!-- FORÇA MODO TELÃO SEMPRE -->
+
+<body class="stage">
   <div class="hairline" aria-hidden="true"></div>
 
   <!-- SVG symbols for icons -->
@@ -1825,7 +1827,7 @@
         <div style="height:12px"></div>
 
         <div class="field">
-          <input id="cfgVolume" type="number" min="0" max="100" value="18" placeholder=" " />
+          <input id="cfgVolume" type="number" min="0" max="100" value="100" placeholder=" " />
           <span class="flabel">Volume (0-100)</span>
         </div>
 
@@ -1834,7 +1836,7 @@
             <div class="ttl">Modo Telão</div>
             <div class="sub">Aumenta tipografia do anúncio e reduz elementos do fundo durante o sorteio.</div>
           </div>
-          <div class="switch" id="cfgStageSwitch" role="switch" aria-checked="false" tabindex="0"
+          <div class="switch on" id="cfgStageSwitch" role="switch" aria-checked="true" tabindex="0"
             title="Ativar/Desativar Modo Telão"></div>
         </div>
       </div>
@@ -1984,13 +1986,16 @@
           const raw = localStorage.getItem(KEY);
           const old = raw ? JSON.parse(raw) : {};
           payload.logo = old.logo || null;
-          payload.cfg = old.cfg || null;
+
+          // FORÇA config sempre
+          payload.cfg = { count: 5, sound: true, theme: 'gold', stagger: 800, volume: 100, stage: true };
         } catch { }
         localStorage.setItem(KEY, JSON.stringify(payload));
       }
 
+      // FORÇA SEMPRE stage ON
       function applyStageMode(on) {
-        document.body.classList.toggle('stage', !!on);
+        document.body.classList.add('stage');
       }
 
       function restore() {
@@ -2006,8 +2011,9 @@
             logoImg.style.display = "block";
             logoText.style.display = "none";
           }
-          const stage = !!data.cfg?.stage;
-          applyStageMode(stage);
+
+          // FORÇA sempre
+          applyStageMode(true);
         } catch { }
       }
 
@@ -2107,7 +2113,10 @@
         try {
           ctx = new (window.AudioContext || window.webkitAudioContext)();
           master = ctx.createGain();
-          master.gain.value = 0.18;
+
+          // FORÇA volume máximo SEMPRE
+          master.gain.value = 1;
+
           try { window.ctx = ctx; window.master = master; } catch { }
           master.connect(ctx.destination);
 
@@ -2119,12 +2128,8 @@
           o.start();
           o.stop(ctx.currentTime + 0.02);
 
-          try {
-            const raw = localStorage.getItem(KEY);
-            const data = raw ? JSON.parse(raw) : {};
-            const vol = data.cfg?.volume;
-            if (typeof vol !== 'undefined') master.gain.value = Math.max(0, Math.min(1, vol / 100));
-          } catch { }
+          // ignora qualquer volume salvo
+          master.gain.value = 1;
 
           audioUnlocked = true;
         } catch {
@@ -2299,14 +2304,9 @@
         if (ticker) { clearInterval(ticker); ticker = null; }
       }
 
+      // FORÇA config sempre (telão + volume máximo)
       function readConfig() {
-        try {
-          const raw = localStorage.getItem(KEY);
-          const cur = raw ? JSON.parse(raw) : {};
-          return (cur.cfg || { count: 5, sound: true, theme: 'gold', stagger: 800, volume: 18, stage: false });
-        } catch {
-          return { count: 5, sound: true, theme: 'gold', stagger: 800, volume: 18, stage: false };
-        }
+        return { count: 5, sound: true, theme: 'gold', stagger: 800, volume: 100, stage: true };
       }
 
       function speak(text) {
@@ -2533,7 +2533,7 @@
         names = []; winners = []; lastUndo = null; pendingWinner = null;
         localStorage.removeItem(KEY);
         closeOverlay();
-        applyStageMode(false);
+        applyStageMode(true);
         render();
         showToast("Tudo zerado.");
       });
@@ -2573,6 +2573,10 @@
             const raw = localStorage.getItem(KEY);
             const data = raw ? JSON.parse(raw) : { names, winners, prize: prize.value };
             data.logo = dataUrl;
+
+            // FORÇA cfg
+            data.cfg = { count: 5, sound: true, theme: 'gold', stagger: 800, volume: 100, stage: true };
+
             localStorage.setItem(KEY, JSON.stringify(data));
           } catch { }
           showToast("Logo aplicada.");
@@ -2583,6 +2587,8 @@
 
       // initial
       restore();
+      applyStageMode(true);
+      persist();
       render();
 
       // unlock audio on first interaction
@@ -2602,14 +2608,39 @@
       const cfgSound = document.getElementById('cfgSound');
       const cfgTheme = document.getElementById('cfgTheme');
       const cfgStageSwitch = document.getElementById('cfgStageSwitch');
+      const cfgVolume = document.getElementById('cfgVolume');
 
       const focusableSel = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"]), [role="switch"]';
 
+      function setSwitch(on) {
+        cfgStageSwitch.classList.toggle('on', !!on);
+        cfgStageSwitch.setAttribute('aria-checked', on ? 'true' : 'false');
+      }
+
+      function forceLockedStageAndVolume() {
+        setSwitch(true);
+
+        if (cfgVolume) {
+          cfgVolume.value = 100;
+          cfgVolume.setAttribute('disabled', 'disabled');
+          cfgVolume.style.opacity = '0.6';
+          cfgVolume.title = 'Volume travado em 100%';
+        }
+
+        cfgStageSwitch?.classList.add('on');
+        cfgStageSwitch?.setAttribute('aria-checked', 'true');
+        cfgStageSwitch?.setAttribute('aria-disabled', 'true');
+        cfgStageSwitch.style.pointerEvents = 'none';
+        cfgStageSwitch.style.opacity = '0.6';
+      }
+
       function openModal() {
         modal.setAttribute('aria-hidden', 'false');
+        forceLockedStageAndVolume();
         const first = modal.querySelector(focusableSel);
         first?.focus();
       }
+
       function closeModal() {
         modal.setAttribute('aria-hidden', 'true');
         btnSettings?.focus();
@@ -2633,28 +2664,19 @@
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       });
 
-      function setSwitch(on) {
-        cfgStageSwitch.classList.toggle('on', !!on);
-        cfgStageSwitch.setAttribute('aria-checked', on ? 'true' : 'false');
-      }
-
-      function toggleSwitch() {
-        const on = !cfgStageSwitch.classList.contains('on');
-        setSwitch(on);
-      }
-
-      cfgStageSwitch?.addEventListener('click', toggleSwitch);
-      cfgStageSwitch?.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleSwitch(); }
-      });
+      // desativa toggle (travado)
+      cfgStageSwitch?.addEventListener('click', (e) => e.preventDefault());
+      cfgStageSwitch?.addEventListener('keydown', (e) => e.preventDefault());
 
       btnSaveSettings?.addEventListener('click', () => {
         try {
           const raw = localStorage.getItem(KEY);
           const data = raw ? JSON.parse(raw) : {};
           const stagger = Number(document.getElementById('cfgStagger')?.value || 800);
-          const volume = Number(document.getElementById('cfgVolume')?.value || 18);
-          const stage = cfgStageSwitch.classList.contains('on');
+
+          // FORÇA SEMPRE
+          const volume = 100;
+          const stage = true;
 
           data.cfg = {
             count: Number(cfgCount.value) || 5,
@@ -2669,11 +2691,11 @@
 
           try {
             if (window.master && typeof window.master.gain !== 'undefined') {
-              window.master.gain.value = Math.max(0, Math.min(1, volume / 100));
+              window.master.gain.value = 1; // FORÇA máximo
             }
           } catch { }
 
-          document.body.classList.toggle('stage', stage);
+          document.body.classList.add('stage');
         } catch { }
         closeModal();
       });
@@ -2687,8 +2709,9 @@
           cfgSound.value = cfg.sound ? '1' : '0';
           cfgTheme.value = cfg.theme || 'gold';
           if (cfg.stagger) document.getElementById('cfgStagger').value = cfg.stagger;
-          if (typeof cfg.volume !== 'undefined') document.getElementById('cfgVolume').value = cfg.volume;
-          setSwitch(!!cfg.stage);
+
+          // FORÇA UI
+          forceLockedStageAndVolume();
         } catch { }
       });
 
@@ -2704,6 +2727,11 @@
         const txt = document.getElementById('lastWinner')?.textContent || '';
         if (txt && txt.trim() !== '—') alert('Vencedor: ' + txt);
       });
+
+      // garante travado já no load
+      forceLockedStageAndVolume();
+      document.body.classList.add('stage');
+      try { if (window.master && window.master.gain) window.master.gain.value = 1; } catch { }
 
     })();
   </script>
