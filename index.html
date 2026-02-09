@@ -39,7 +39,6 @@
       --r16: 16px;
       --r20: 20px;
 
-      /* --sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; */
       --serif: "Abel", sans-serif;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
@@ -58,16 +57,11 @@
       height: 100%
     }
 
-    /* ==========================================
-       (NEW) Mesmo BACKGROUND do overlay (cinema)
-       aplicado na página principal
-       ========================================== */
     body {
       margin: 0;
       font-family: var(--serif);
       color: var(--text);
 
-      /* cinema-like background (igual ao overlay) */
       background:
         radial-gradient(900px 520px at 50% 0%, rgba(212, 175, 55, .14), transparent 60%),
         radial-gradient(900px 520px at 15% 100%, rgba(212, 175, 55, .08), transparent 65%),
@@ -79,7 +73,6 @@
       overflow-x: hidden;
     }
 
-    /* scanlines do cinema */
     body::before {
       content: "";
       position: fixed;
@@ -94,7 +87,6 @@
       z-index: 0;
     }
 
-    /* stripes drift (como no overlay) + leve vinheta */
     body::after {
       content: "";
       position: fixed;
@@ -123,7 +115,6 @@
       }
     }
 
-    /* garante que o conteúdo fique acima dos efeitos do body */
     .wrap,
     header,
     .grid,
@@ -135,19 +126,16 @@
       z-index: 1;
     }
 
-    /* (FIX) remove “pulo” do layout ao abrir overlay e travar o scroll */
     body.overlay-open {
       overflow: hidden;
       padding-right: var(--sbw, 0px);
     }
 
-    /* (FIX) melhorar acessibilidade de foco global */
     :focus-visible {
       outline: 2px solid rgba(212, 175, 55, .35);
       outline-offset: 2px;
     }
 
-    /* subtle top hairline */
     body .hairline {
       content: "";
       position: fixed;
@@ -161,7 +149,6 @@
       z-index: 9990;
     }
 
-    /* when overlay open, softly dim background */
     body.overlay-open .wrap {
       filter: saturate(.95) brightness(.80);
       transition: filter var(--t220) ease;
@@ -174,9 +161,6 @@
       transition: filter var(--t220) ease;
     }
 
-    /* =========================
-       STICKY HEADER (premium)
-       ========================= */
     header {
       position: sticky;
       top: 0;
@@ -188,7 +172,6 @@
       padding: 12px 20px 14px;
       border-bottom: 1px solid rgba(255, 255, 255, .04);
 
-      /* leve “glass” sem vidro: só realce do cinema */
       background: linear-gradient(180deg, rgba(0, 0, 0, .70), rgba(0, 0, 0, .20));
       backdrop-filter: blur(6px);
       border-radius: 20px;
@@ -301,9 +284,6 @@
       text-transform: uppercase;
     }
 
-    /* =========================
-       HEADER METRICS
-       ========================= */
     .rightTop {
       display: flex;
       align-items: center;
@@ -356,9 +336,6 @@
       justify-content: flex-end;
     }
 
-    /* =========================
-       LAYOUT / CARDS
-       ========================= */
     .grid {
       display: grid;
       grid-template-columns: 1.15fr .85fr;
@@ -414,9 +391,6 @@
       padding: 16px
     }
 
-    /* =========================
-       FIELDS (floating label)
-       ========================= */
     .field {
       position: relative
     }
@@ -507,17 +481,14 @@
     }
 
     /* =========================
-       (NEW) BUTTON ANIMATIONS — modernas
+       (NEW) BUTTON ANIMATIONS
        ========================= */
-
-    /* base */
     .btn,
     .iconBtn {
       transform: translateZ(0);
       will-change: transform, filter;
     }
 
-    /* shimmer layer */
     .btn {
       position: relative;
       overflow: hidden;
@@ -537,7 +508,6 @@
       z-index: 0;
     }
 
-    /* sheen swipe */
     .btn::after {
       content: "";
       position: absolute;
@@ -557,7 +527,6 @@
       z-index: 1;
     }
 
-    /* hover micro-interactions */
     .btn:hover {
       transform: translateY(-1px);
       filter: brightness(1.03);
@@ -588,12 +557,10 @@
       }
     }
 
-    /* active press */
     .btn:active {
       transform: translateY(1px) scale(.99);
     }
 
-    /* subtle idle pulse for primary only (very gentle) */
     .btn:not(.ghost):not(.secondary):not(.danger) {
       animation: glowIdle 3.8s ease-in-out infinite;
     }
@@ -610,7 +577,6 @@
       }
     }
 
-    /* ghost / secondary hover: border glow + slide */
     .btn.ghost,
     .btn.secondary,
     .btn.danger {
@@ -634,7 +600,6 @@
       border-color: rgba(255, 77, 94, .45);
     }
 
-    /* icon button animations */
     .iconBtn {
       position: relative;
       overflow: hidden;
@@ -665,7 +630,6 @@
       transform: translateY(1px) scale(.98);
     }
 
-    /* reduced motion */
     @media (prefers-reduced-motion: reduce) {
 
       .btn,
@@ -677,9 +641,6 @@
       }
     }
 
-    /* =========================
-       BUTTONS (hierarchy)
-       ========================= */
     .btn {
       appearance: none;
       border: none;
@@ -726,7 +687,6 @@
       letter-spacing: .02em;
       font-weight: 650;
       animation: none;
-      /* não pulsa */
     }
 
     .btn.danger {
@@ -738,7 +698,6 @@
       letter-spacing: .02em;
       font-weight: 750;
       animation: none;
-      /* não pulsa */
     }
 
     .icon {
@@ -772,9 +731,6 @@
       box-shadow: 0 0 0 6px rgba(212, 175, 55, .10)
     }
 
-    /* =========================
-       LISTS
-       ========================= */
     .list {
       margin-top: 14px;
       border-radius: var(--r16);
@@ -902,9 +858,6 @@
       color: rgba(246, 242, 234, .74)
     }
 
-    /* =========================
-       RIGHT PANEL
-       ========================= */
     .stack {
       display: flex;
       flex-direction: column;
@@ -920,7 +873,150 @@
       min-width: 0;
     }
 
-    /* Spotlight card */
+    /* ============ (NEW) GROUPS UI ============ */
+    .groupWrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .groupGrid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width:520px) {
+      .groupGrid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .gCard {
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, .10);
+      background: rgba(0, 0, 0, .42);
+      padding: 10px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      transition: transform var(--t150) ease, border-color var(--t150) ease, background var(--t150) ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .gCard:hover {
+      transform: translateY(-1px);
+      border-color: rgba(212, 175, 55, .20);
+      background: rgba(212, 175, 55, .04);
+    }
+
+    .gLeft {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .gCheck {
+      width: 18px;
+      height: 18px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, .18);
+      background: rgba(0, 0, 0, .55);
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .gCheck i {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background: var(--gold2);
+      opacity: 0;
+      transition: opacity var(--t150) ease;
+    }
+
+    .gCard[data-on="1"] .gCheck {
+      border-color: rgba(212, 175, 55, .35);
+      background: rgba(212, 175, 55, .08);
+    }
+
+    .gCard[data-on="1"] .gCheck i {
+      opacity: 1;
+    }
+
+    .gMeta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .gTitle {
+      font-weight: 850;
+      letter-spacing: .02em;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: rgba(246, 242, 234, .92);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .gSub {
+      font-size: 12px;
+      color: var(--muted2);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 46ch;
+    }
+
+    .gPill {
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, .22);
+      background: rgba(212, 175, 55, .06);
+      color: rgba(246, 242, 234, .78);
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    .gActions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .gDivider {
+      height: 1px;
+      background: rgba(255, 255, 255, .08);
+      opacity: .65;
+      margin: 2px 0 0;
+    }
+
+    .gSummary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .gSummary .mini {
+      margin: 0;
+    }
+
+    /* =========================
+       RIGHT PANEL
+       ========================= */
     .spot-inner {
       display: grid;
       grid-template-columns: 52px 1fr auto;
@@ -978,9 +1074,6 @@
       max-width: 100%;
     }
 
-    /* =========================
-       MODAL
-       ========================= */
     .modal {
       position: fixed;
       inset: 0;
@@ -1046,7 +1139,6 @@
       display: inline-block;
     }
 
-    /* modern toggle */
     .toggleRow {
       display: flex;
       align-items: center;
@@ -1112,9 +1204,6 @@
       background: var(--gold2);
     }
 
-    /* =========================
-       TOAST
-       ========================= */
     .toast {
       position: fixed;
       right: 16px;
@@ -1146,9 +1235,6 @@
       font-size: 12px
     }
 
-    /* =========================
-       OVERLAY (clean cinema)
-       ========================= */
     .overlay {
       position: fixed;
       inset: 0;
@@ -1478,9 +1564,6 @@
       }
     }
 
-    /* =========================
-       STAGE MODE (telão)
-       ========================= */
     body.stage .wrap {
       max-width: 1280px
     }
@@ -1520,9 +1603,6 @@
       transition: opacity var(--t220) ease;
     }
 
-    /* =========================
-       MOBILE POLISH
-       ========================= */
     @media (max-width:520px) {
       .wrap {
         padding: 18px 12px 26px
@@ -1591,12 +1671,9 @@
   </style>
 </head>
 
-<!-- FORÇA MODO TELÃO SEMPRE -->
-
 <body class="stage">
   <div class="hairline" aria-hidden="true"></div>
 
-  <!-- SVG symbols for icons -->
   <svg style="display:none" aria-hidden="true">
     <symbol id="ico-export" viewBox="0 0 24 24">
       <path fill="currentColor" d="M13 3v8h3l-4 5-4-5h3V3h2zM5 19h14v2H5v-2z" />
@@ -1687,6 +1764,40 @@
         </div>
 
         <div class="bd">
+
+          <!-- ============ (NEW) GRUPOS DE PARTICIPANTES ============ -->
+          <div class="block" style="margin-bottom:12px;">
+            <div class="groupWrap">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+                <strong
+                  style="text-transform:uppercase;letter-spacing:.18em;font-size:10.5px;color:rgba(246,242,234,.86)">
+                  Grupos de participantes
+                </strong>
+                <span class="mini" id="groupsMini">0 selecionado(s)</span>
+              </div>
+
+              <div class="gDivider"></div>
+
+              <div class="groupGrid" id="groupsGrid"></div>
+
+              <div class="gSummary">
+                <span class="muted" id="groupsInfo">Selecione 1 ou mais grupos para carregar na lista do sorteio.</span>
+                <div class="gActions">
+                  <button class="btn ghost" id="btnGroupsSelectAll">Selecionar todos</button>
+                  <button class="btn ghost" id="btnGroupsClear">Limpar seleção</button>
+                  <button class="btn ghost" id="btnGroupsAdd">Adicionar grupos</button>
+                  <button class="btn" id="btnGroupsReplace">Carregar grupos</button>
+                </div>
+              </div>
+
+              <div class="hint" style="margin-top:8px">
+                “Carregar grupos” substitui a lista atual. “Adicionar grupos” só mescla. Duplicados são removidos
+                automaticamente (inclusive entre grupos).
+              </div>
+            </div>
+          </div>
+          <!-- ====================================================== -->
+
           <div class="field">
             <textarea id="namesBox" placeholder=" "></textarea>
             <span class="flabel">Cole os nomes (1 por linha)</span>
@@ -1916,14 +2027,9 @@
       const search = $("search");
       const listScroll = $("listScroll");
       const historyScroll = $("historyScroll");
-
-      // legacy stats (kept hidden)
       const pillStats = $("pillStats");
-
-      // new metrics
       const metricNames = $("metricNames");
       const metricWinners = $("metricWinners");
-
       const miniInfo = $("miniInfo");
       const prize = $("prize");
       const lastWinner = $("lastWinner");
@@ -1940,26 +2046,34 @@
 
       const toast = $("toast");
 
-      // stepper
       const stepEls = Array.from(document.querySelectorAll('.step[data-step]'));
 
-      // logo
       const logoBox = $("logoBox");
       const logoInput = $("logoInput");
       const logoImg = $("logoImg");
       const logoText = $("logoText");
 
-      // FX elements
       const flashEl = $("flash");
       const cinemaCenter = $("cinemaCenter");
       const tracers = document.querySelectorAll(".tracer");
 
+      // --- GROUP UI ELEMENTS ---
+      const groupsGrid = $("groupsGrid");
+      const groupsMini = $("groupsMini");
+      const groupsInfo = $("groupsInfo");
+      const btnGroupsSelectAll = $("btnGroupsSelectAll");
+      const btnGroupsClear = $("btnGroupsClear");
+      const btnGroupsAdd = $("btnGroupsAdd");
+      const btnGroupsReplace = $("btnGroupsReplace");
+
       // --- HELPERS ---
       const nowISO = () => new Date().toISOString();
       const formatBR = (iso) => new Date(iso).toLocaleString("pt-BR", { hour12: false });
-      const norm = (s) => (s || "").replace(/\s+/g, " ").trim();
 
-      // (FIX) calcula largura da scrollbar p/ não dar “pulo” no layout quando trava scroll
+      const norm = (s) => (s || "").replace(/\s+/g, " ").trim();
+      const stripDiacritics = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      const keyName = (s) => stripDiacritics(norm(s)).toLowerCase();
+
       function setScrollbarWidthVar() {
         const sbw = window.innerWidth - document.documentElement.clientWidth;
         document.documentElement.style.setProperty('--sbw', sbw + 'px');
@@ -1987,13 +2101,11 @@
           const old = raw ? JSON.parse(raw) : {};
           payload.logo = old.logo || null;
 
-          // FORÇA config sempre
           payload.cfg = { count: 5, sound: true, theme: 'gold', stagger: 800, volume: 100, stage: true };
         } catch { }
         localStorage.setItem(KEY, JSON.stringify(payload));
       }
 
-      // FORÇA SEMPRE stage ON
       function applyStageMode(on) {
         document.body.classList.add('stage');
       }
@@ -2011,19 +2123,17 @@
             logoImg.style.display = "block";
             logoText.style.display = "none";
           }
-
-          // FORÇA sempre
           applyStageMode(true);
         } catch { }
       }
 
       function uniqueMerge(list) {
-        const set = new Set(names.map(n => n.toLowerCase()));
+        const set = new Set(names.map(n => keyName(n)));
         let add = 0, dup = 0;
         for (const raw of list) {
           const n = norm(raw);
           if (!n) continue;
-          const k = n.toLowerCase();
+          const k = keyName(n);
           if (set.has(k)) { dup++; continue; }
           set.add(k);
           names.push(n);
@@ -2032,6 +2142,201 @@
         return { add, dup };
       }
 
+      // =========================
+      // GROUPS DATA (dedupe + geral sem vendedores)
+      // =========================
+      const GROUPS_RAW = {
+        vendedores: [
+          "CLAUDIAMAR PAIXAO",
+          "VALCIR TRINDADE",
+          "PEDRO AZEVEDO",
+          "ANDRE JUNIOR DE SOUZA",
+          "ADRIANO JOSE SETTI RIBAS",
+          "FRANCISCO JOCELINO DA SILVA",
+          "EDSON LEITE DA SILVA",
+          "REGINALDO APARECIDO DE ALMEIDA",
+          "DENISSON ALVES DA SILVEIRA",
+          "MILTON RAMOS MARINHO",
+          "ROBSON GUEDES BATISTA",
+          "EDUARDO MEDRADES DE SOUZA",
+          "MARCIA SENA",
+          "VOLNEY MACHADO",
+          "EVERTON CESAR LEVINSKI",
+          "FABIANO BATISTA DOS SANTOS",
+          "ADEMILSON ALVES",
+          "GABRIEL GOMES DE MACEDO"
+        ],
+        geral: [
+          "ALYSON DHEEP OLIVEIRA ROVER",
+          "ANDREIA FERREIRA DA SILVA",
+          "ANIBAL SOUZA DE CASTRO",
+          "ARIELLY MICAELY LUIZ PEREIRA",
+          "ALAN CRISTHIAN PEREIRA DA SILVA",
+          "BRUNA DE ASSIS PESSOA",
+          "CAMILA ISAQUEL BATISTELLA",
+          "CRISTIANE GUADY DE OLIVEIRA",
+          "EDVAN DA SILVA PROTASIO",
+          "EDUARDO ALVES DE SOUZA SILVA",
+          "EDVANDERLAN XAVIER PEREIRA DA SILVA",
+          "EIDER TALEVI",
+          "EMERSON IGOR BARBOSA DE FREITAS",
+          "ERILEZIO MOURA PEREIRA",
+          "ERLI DA SILVA SOUZA",
+          "FLAVIO SANTOS DA SILVA",
+          "GABRIEL LEONARDO PERPETUO DA LUZ",
+          "JEFERSON ALEMÃO DA SILVA",
+          "JESSICA GEANE PERES DE SOUZA",
+          "JOSE FERNANDES NOGUEIRA",
+          "JOSEFINA ROVER SOARES",
+          "JULIA SILVA PEREIRA",
+          "KLEBER ROVER SOARES",
+          "LENIN ASSIS DE ASTRE JUNIOR",
+          "LETHANYARRE DE ANDRADE CAMPOS",
+          "LUZIANE ARAUJO DA GAMA",
+          "LUCAS DA SILVA SIMÃO",
+          "MARCOS ANTONIO MATOS DE SOUZA",
+          "MARIA EDUARDA DE OLIVEIRA BRITO",
+          "ODERLEY OLIVEIRA NASCIMENTO",
+          "PALOMA CORREA DA SILVA PEREIRA",
+          "PATRICIO MORAES DE ANDRADE",
+          "RADRIEL DURVAL PEREIRA DE SOUZA",
+          "ROSELI APARECIDA FONSECA",
+          "RYAN HUGO SOUSA DA SILVA",
+          "SARA RAIANE SILVA REIS",
+          "SIMONE FERREIRA MENDONÇA CALIXTO",
+          "TABATA ROVER DA SILVA",
+          "TELMA NUNES DA SILVA",
+          "VICTOR SAID VARGAS AYALA",
+          "VERA LUCIA LIMA RODRIGUES",
+          "VITOR GABRIEL TEIXEIRA MARI",
+          "ADILSON FONSECA",
+          "ARINEIA DE OLIVEIRA FREITAS",
+          "CLEVERSON APARECIDO VANZELLA",
+          "CLOVIS CONTADINI FILHO",
+          "DANIEL GOMES",
+          "DIEUMIKA PRECOIT",
+          "EMERSON DO CARMO LIMA",
+          "EDINALDO ARAUJO",
+          "EZEQUIAS MAGALHAES SALES",
+          "FRANCINEY NOGUEIRA MAIA",
+          "GABRIEL SARRADO DA SILVA",
+          "GLADSON DA CRUZ LIMA",
+          "HAROLDO ROMARCIO ANDRADE SILVA",
+          "IDIVAN NUNES MARQUES",
+          "LAURINDO ROCHA BATISTA",
+          "MOACIR ROCHA JUNIOR",
+          "RENATO STARK",
+          "ROBERTO CARLOS MENDES LOBATO",
+          "TIAGO VIEIRA GUEDES",
+          "VANDRO DOS SANTOS",
+          "WEMERSON FERREIRA ALVES"
+        ]
+      };
+
+      function uniqList(list) {
+        const out = [];
+        const set = new Set();
+        for (const raw of list || []) {
+          const n = norm(raw);
+          if (!n) continue;
+          const k = keyName(n);
+          if (set.has(k)) continue;
+          set.add(k);
+          out.push(n);
+        }
+        return out;
+      }
+
+      const GROUPS = (() => {
+        const sellers = uniqList(GROUPS_RAW.vendedores);
+        const sellerKeys = new Set(sellers.map(keyName));
+
+        // garante "geral sem vendedores" de forma robusta
+        const generalPre = uniqList(GROUPS_RAW.geral);
+        const general = generalPre.filter(n => !sellerKeys.has(keyName(n)));
+
+        return {
+          vendedores: { id: "vendedores", title: "Vendedores", desc: "Equipe de vendas", list: sellers },
+          geral: { id: "geral", title: "Geral", desc: "Participantes gerais (sem vendedores)", list: general }
+        };
+      })();
+
+      const selectedGroups = new Set(); // ids selecionados
+
+      function getSelectedGroupIds() {
+        return Array.from(selectedGroups.values());
+      }
+
+      function selectedPeople() {
+        const ids = getSelectedGroupIds();
+        const agg = [];
+        for (const id of ids) {
+          const g = GROUPS[id];
+          if (!g) continue;
+          agg.push(...g.list);
+        }
+        // remove duplicidade entre grupos
+        return uniqList(agg);
+      }
+
+      function updateGroupsMini() {
+        const ids = getSelectedGroupIds();
+        groupsMini.textContent = `${ids.length} selecionado(s)`;
+        if (!ids.length) {
+          groupsInfo.textContent = "Selecione 1 ou mais grupos para carregar na lista do sorteio.";
+          return;
+        }
+        const count = selectedPeople().length;
+        const label = ids.map(id => GROUPS[id]?.title).filter(Boolean).join(" + ");
+        groupsInfo.textContent = `${label}: ${count} participante(s) únicos.`;
+      }
+
+      function renderGroupsUI() {
+        if (!groupsGrid) return;
+        groupsGrid.innerHTML = "";
+        Object.values(GROUPS).forEach(g => {
+          const on = selectedGroups.has(g.id) ? "1" : "0";
+          const el = document.createElement("div");
+          el.className = "gCard";
+          el.setAttribute("role", "button");
+          el.setAttribute("tabindex", "0");
+          el.setAttribute("data-id", g.id);
+          el.setAttribute("data-on", on);
+          el.setAttribute("aria-pressed", selectedGroups.has(g.id) ? "true" : "false");
+          el.title = "Clique para selecionar";
+
+          el.innerHTML = `
+            <div class="gLeft">
+              <div class="gCheck" aria-hidden="true"><i></i></div>
+              <div class="gMeta">
+                <div class="gTitle">${escapeHtml(g.title)}</div>
+                <div class="gSub">${escapeHtml(g.desc)}</div>
+              </div>
+            </div>
+            <div class="gPill">${g.list.length} nomes</div>
+          `;
+
+          function toggle() {
+            if (selectedGroups.has(g.id)) selectedGroups.delete(g.id);
+            else selectedGroups.add(g.id);
+            renderGroupsUI();
+            updateGroupsMini();
+          }
+
+          el.addEventListener("click", toggle);
+          el.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+          });
+
+          groupsGrid.appendChild(el);
+        });
+
+        updateGroupsMini();
+      }
+
+      // =========================
+      // RENDER
+      // =========================
       function render() {
         pillStats.textContent = `${names.length} na lista • ${winners.length} sorteados`;
 
@@ -2081,7 +2386,7 @@
       }
 
       // =========================
-      // FX: tracers + flash + shake
+      // FX
       // =========================
       function fireTracers() {
         tracers.forEach((t, i) => {
@@ -2114,7 +2419,6 @@
           ctx = new (window.AudioContext || window.webkitAudioContext)();
           master = ctx.createGain();
 
-          // FORÇA volume máximo SEMPRE
           master.gain.value = 1;
 
           try { window.ctx = ctx; window.master = master; } catch { }
@@ -2128,7 +2432,6 @@
           o.start();
           o.stop(ctx.currentTime + 0.02);
 
-          // ignora qualquer volume salvo
           master.gain.value = 1;
 
           audioUnlocked = true;
@@ -2187,6 +2490,40 @@
         tone(660, 0.12, "sine", 0.07);
         whoosh(0.35);
       }
+
+      // =========================
+      // GROUP ACTIONS
+      // =========================
+      function loadGroupsIntoList(mode /* 'replace' | 'add' */) {
+        unlockAudio();
+        const people = selectedPeople();
+        if (!people.length) {
+          showToast("Nenhum grupo selecionado.", "Selecione ao menos 1 grupo.");
+          return;
+        }
+
+        if (mode === "replace") {
+          names = []; // zera lista e carrega do zero
+          const { add } = uniqueMerge(people);
+          persist(); render();
+          showToast("Lista carregada.", `${add} participantes no sorteio.`);
+        } else {
+          const { add, dup } = uniqueMerge(people);
+          persist(); render();
+          showToast("Grupos adicionados.", `${add} adicionados • ${dup} já existiam`);
+        }
+      }
+
+      btnGroupsSelectAll?.addEventListener("click", () => {
+        Object.keys(GROUPS).forEach(id => selectedGroups.add(id));
+        renderGroupsUI();
+      });
+      btnGroupsClear?.addEventListener("click", () => {
+        selectedGroups.clear();
+        renderGroupsUI();
+      });
+      btnGroupsAdd?.addEventListener("click", () => loadGroupsIntoList("add"));
+      btnGroupsReplace?.addEventListener("click", () => loadGroupsIntoList("replace"));
 
       // --- ADD NAMES ---
       $("btnAdd").addEventListener("click", () => {
@@ -2304,7 +2641,6 @@
         if (ticker) { clearInterval(ticker); ticker = null; }
       }
 
-      // FORÇA config sempre (telão + volume máximo)
       function readConfig() {
         return { count: 5, sound: true, theme: 'gold', stagger: 800, volume: 100, stage: true };
       }
@@ -2488,7 +2824,6 @@
         if (e.target === overlay) closeOverlay();
       });
 
-      // Undo last
       $("btnUndo").addEventListener("click", () => {
         unlockAudio();
         if (!winners.length) { showToast("Nada para desfazer."); return; }
@@ -2506,7 +2841,6 @@
         showToast("Histórico limpo.");
       });
 
-      // Export winners CSV
       $("btnExport").addEventListener("click", () => {
         unlockAudio();
         if (!winners.length) { showToast("Sem vencedores para exportar."); return; }
@@ -2525,7 +2859,6 @@
         showToast("Exportado.", "Arquivo CSV baixado.");
       });
 
-      // Reset
       $("btnReset").addEventListener("click", () => {
         unlockAudio();
         const ok = confirm("Zerar tudo?\n\nIsso apaga lista, histórico e configurações deste navegador.");
@@ -2538,7 +2871,6 @@
         showToast("Tudo zerado.");
       });
 
-      // Keyboard shortcuts
       window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
           if (overlay.style.display === "flex") closeOverlay();
@@ -2573,10 +2905,7 @@
             const raw = localStorage.getItem(KEY);
             const data = raw ? JSON.parse(raw) : { names, winners, prize: prize.value };
             data.logo = dataUrl;
-
-            // FORÇA cfg
             data.cfg = { count: 5, sound: true, theme: 'gold', stagger: 800, volume: 100, stage: true };
-
             localStorage.setItem(KEY, JSON.stringify(data));
           } catch { }
           showToast("Logo aplicada.");
@@ -2590,8 +2919,8 @@
       applyStageMode(true);
       persist();
       render();
+      renderGroupsUI();
 
-      // unlock audio on first interaction
       window.addEventListener("pointerdown", unlockAudio, { once: true });
     })();
 
@@ -2664,7 +2993,6 @@
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       });
 
-      // desativa toggle (travado)
       cfgStageSwitch?.addEventListener('click', (e) => e.preventDefault());
       cfgStageSwitch?.addEventListener('keydown', (e) => e.preventDefault());
 
@@ -2674,7 +3002,6 @@
           const data = raw ? JSON.parse(raw) : {};
           const stagger = Number(document.getElementById('cfgStagger')?.value || 800);
 
-          // FORÇA SEMPRE
           const volume = 100;
           const stage = true;
 
@@ -2691,7 +3018,7 @@
 
           try {
             if (window.master && typeof window.master.gain !== 'undefined') {
-              window.master.gain.value = 1; // FORÇA máximo
+              window.master.gain.value = 1;
             }
           } catch { }
 
@@ -2709,8 +3036,6 @@
           cfgSound.value = cfg.sound ? '1' : '0';
           cfgTheme.value = cfg.theme || 'gold';
           if (cfg.stagger) document.getElementById('cfgStagger').value = cfg.stagger;
-
-          // FORÇA UI
           forceLockedStageAndVolume();
         } catch { }
       });
@@ -2728,7 +3053,6 @@
         if (txt && txt.trim() !== '—') alert('Vencedor: ' + txt);
       });
 
-      // garante travado já no load
       forceLockedStageAndVolume();
       document.body.classList.add('stage');
       try { if (window.master && window.master.gain) window.master.gain.value = 1; } catch { }
