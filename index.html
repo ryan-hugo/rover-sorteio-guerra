@@ -59,7 +59,6 @@
 
     body {
       margin: 0;
-      font-family: var(--serif);
       color: var(--text);
 
       background:
@@ -481,7 +480,7 @@
     }
 
     /* =========================
-       (NEW) BUTTON ANIMATIONS
+       BUTTONS
        ========================= */
     .btn,
     .iconBtn {
@@ -538,7 +537,7 @@
 
     .btn:hover::after {
       opacity: 1;
-      animation: sheen 620ms var(--ease) 1;
+      animation: sheen 620ms cubic-bezier(.2, .9, .2, 1) 1;
     }
 
     @keyframes sheen {
@@ -649,7 +648,6 @@
       border-radius: 14px;
       padding: 10px 12px;
       min-height: 40px;
-      font-family: var(--serif);
       font-weight: 800;
       font-size: 12px;
       letter-spacing: .08em;
@@ -783,7 +781,6 @@
     }
 
     .mini {
-      font-family: var(--serif);
       font-size: 11px;
       padding: 6px 10px;
       border-radius: 999px;
@@ -853,7 +850,6 @@
     }
 
     .time {
-      font-family: var(--serif);
       font-size: 11px;
       color: rgba(246, 242, 234, .74)
     }
@@ -873,7 +869,7 @@
       min-width: 0;
     }
 
-    /* ============ (NEW) GROUPS UI ============ */
+    /* ============ GROUPS UI ============ */
     .groupWrap {
       display: flex;
       flex-direction: column;
@@ -1010,10 +1006,6 @@
       margin-top: 2px;
     }
 
-    .gSummary .mini {
-      margin: 0;
-    }
-
     /* =========================
        RIGHT PANEL
        ========================= */
@@ -1062,7 +1054,6 @@
     }
 
     .spot-name {
-      font-family: var(--serif);
       font-weight: 700;
       font-size: 18px;
       letter-spacing: .2px;
@@ -1113,7 +1104,6 @@
 
     .modalHd h3 {
       margin: 0;
-      font-family: var(--serif);
       font-weight: 700;
       font-size: 16px;
     }
@@ -1319,7 +1309,6 @@
       border: 1px solid rgba(212, 175, 55, .24);
       background: rgba(212, 175, 55, .06);
       color: rgba(246, 242, 234, .88);
-      font-family: var(--serif);
       font-size: 11px;
       margin-bottom: 12px;
     }
@@ -1352,7 +1341,6 @@
       align-items: center;
       gap: 8px;
       font-size: 11px;
-      font-family: var(--serif);
       color: rgba(246, 242, 234, .62);
       letter-spacing: .06em;
       text-transform: uppercase;
@@ -1378,7 +1366,6 @@
     }
 
     .count {
-      font-family: var(--serif);
       font-size: 92px;
       font-weight: 700;
       color: var(--gold2);
@@ -1401,7 +1388,7 @@
       height: 100%;
       width: 0%;
       background: linear-gradient(90deg, var(--gold), var(--gold2));
-      transition: width 520ms var(--ease);
+      transition: width 520ms cubic-bezier(.2, .9, .2, 1);
     }
 
     .subline {
@@ -1436,8 +1423,7 @@
     .revealItem {
       opacity: 0;
       transform: translateY(10px) scale(.98);
-      transition: opacity 320ms ease, transform 360ms var(--ease);
-      font-family: var(--serif);
+      transition: opacity 320ms ease, transform 360ms cubic-bezier(.2, .9, .2, 1);
       font-size: 40px;
       font-weight: 700;
       color: var(--gold2);
@@ -1535,7 +1521,7 @@
     }
 
     .shake {
-      animation: shakeCam 360ms var(--ease) 1
+      animation: shakeCam 360ms cubic-bezier(.2, .9, .2, 1) 1
     }
 
     @keyframes shakeCam {
@@ -1568,20 +1554,12 @@
       max-width: 1280px
     }
 
-    body.stage .subtitle {
-      opacity: .90
-    }
-
     body.stage .count {
       font-size: 120px
     }
 
     body.stage .revealItem {
       font-size: 56px
-    }
-
-    body.stage .headline {
-      font-size: 13px
     }
 
     body.stage .center {
@@ -1765,7 +1743,7 @@
 
         <div class="bd">
 
-          <!-- ============ (NEW) GRUPOS DE PARTICIPANTES ============ -->
+          <!-- GRUPOS (inclui Atacarejo I) -->
           <div class="block" style="margin-bottom:12px;">
             <div class="groupWrap">
               <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
@@ -1791,12 +1769,11 @@
               </div>
 
               <div class="hint" style="margin-top:8px">
-                “Carregar grupos” substitui a lista atual. “Adicionar grupos” só mescla. Duplicados são removidos
+                “Carregar grupos” substitui a lista atual. “Adicionar grupos” apenas mescla. Duplicados são removidos
                 automaticamente (inclusive entre grupos).
               </div>
             </div>
           </div>
-          <!-- ====================================================== -->
 
           <div class="field">
             <textarea id="namesBox" placeholder=" "></textarea>
@@ -1861,8 +1838,7 @@
                   <div class="muted" style="text-transform:uppercase;letter-spacing:.18em;font-size:10.5px">Último
                     vencedor</div>
                   <div id="lastWinner" class="spot-name">—</div>
-                  <div class="muted" id="lastMeta" style="margin-top:6px;font-family:var(--serif);font-size:12px">Pronto
-                    para sortear.</div>
+                  <div class="muted" id="lastMeta" style="margin-top:6px;font-size:12px">Pronto para sortear.</div>
                 </div>
                 <div class="spot-actions" style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap">
                   <button class="btn ghost" id="btnRepeat">Repetir som</button>
@@ -2100,7 +2076,6 @@
           const raw = localStorage.getItem(KEY);
           const old = raw ? JSON.parse(raw) : {};
           payload.logo = old.logo || null;
-
           payload.cfg = { count: 5, sound: true, theme: 'gold', stagger: 800, volume: 100, stage: true };
         } catch { }
         localStorage.setItem(KEY, JSON.stringify(payload));
@@ -2143,7 +2118,7 @@
       }
 
       // =========================
-      // GROUPS DATA (dedupe + geral sem vendedores)
+      // GROUPS DATA (com Atacarejo I)
       // =========================
       const GROUPS_RAW = {
         vendedores: [
@@ -2166,8 +2141,7 @@
           "ADEMILSON ALVES",
           "GABRIEL GOMES DE MACEDO"
         ],
-        geral: [
-          "ALYSON DHEEP OLIVEIRA ROVER",
+        distribuidora: [
           "ANDREIA FERREIRA DA SILVA",
           "ANIBAL SOUZA DE CASTRO",
           "ARIELLY MICAELY LUIZ PEREIRA",
@@ -2230,6 +2204,29 @@
           "TIAGO VIEIRA GUEDES",
           "VANDRO DOS SANTOS",
           "WEMERSON FERREIRA ALVES"
+        ],
+        atacarejo1: [
+          "ALUIZA GOMES REGO",
+          "FELIPE DE OLIVEIRA PROTASIO",
+          "MARIA AUXILIADORA LIMA GOMES FONSECA",
+          "VALDELICE ALVES DE LIMA",
+          "MATEUS MARCOS MATOS DE SOUZA",
+          "MARIA ANDRESSA FERNANDES",
+          "ADRIELLE MISSEL",
+          "ANA PAULA CONCEIÇÃO DA SILVA",
+          "ERICA LEIDIANE PASSO VIANA",
+          "CATIA CRISTINA DE MELO",
+          "ANDRE MOREIRA DA SILVA",
+          "ANTONIO CARLOS ARAUJO DE LIMA",
+          "ANTONIO MOREIRA DE LIMA",
+          "EDNEI BITENCOURT DE OLIVEIRA",
+          "IAN RICARDO TENORIO VIEIRA",
+          "EDUARDO BRITO DE SOUSA",
+          "ANTONIA ROZINEIDE LEANDRO DA SILVA",
+          "MARCOS ROBERTO ALMEIDA DA SILVA",
+          "DEANE FERREIRA LIMA",
+          "INACIO LAGOS",
+          "MARCIA MARIA DA SILVA SENA"
         ]
       };
 
@@ -2251,13 +2248,16 @@
         const sellers = uniqList(GROUPS_RAW.vendedores);
         const sellerKeys = new Set(sellers.map(keyName));
 
-        // garante "geral sem vendedores" de forma robusta
-        const generalPre = uniqList(GROUPS_RAW.geral);
+        const generalPre = uniqList(GROUPS_RAW.distribuidora);
+        // garante "geral sem vendedores"
         const general = generalPre.filter(n => !sellerKeys.has(keyName(n)));
+
+        const atac1 = uniqList(GROUPS_RAW.atacarejo1);
 
         return {
           vendedores: { id: "vendedores", title: "Vendedores", desc: "Equipe de vendas", list: sellers },
-          geral: { id: "geral", title: "Geral", desc: "Participantes gerais (sem vendedores)", list: general }
+          distribuidora: { id: "distribuidora", title: "distribuidora", desc: "Participantes gerais (sem vendedores)", list: general },
+          atacarejo1: { id: "atacarejo1", title: "Atacarejo I", desc: "Equipe Atacarejo I", list: atac1 }
         };
       })();
 
@@ -2333,6 +2333,36 @@
 
         updateGroupsMini();
       }
+
+      function loadGroupsIntoList(mode /* 'replace' | 'add' */) {
+        unlockAudio();
+        const people = selectedPeople();
+        if (!people.length) {
+          showToast("Nenhum grupo selecionado.", "Selecione ao menos 1 grupo.");
+          return;
+        }
+        if (mode === "replace") {
+          names = [];
+          const { add } = uniqueMerge(people);
+          persist(); render();
+          showToast("Lista carregada.", `${add} participantes no sorteio.`);
+        } else {
+          const { add, dup } = uniqueMerge(people);
+          persist(); render();
+          showToast("Grupos adicionados.", `${add} adicionados • ${dup} já existiam`);
+        }
+      }
+
+      btnGroupsSelectAll?.addEventListener("click", () => {
+        Object.keys(GROUPS).forEach(id => selectedGroups.add(id));
+        renderGroupsUI();
+      });
+      btnGroupsClear?.addEventListener("click", () => {
+        selectedGroups.clear();
+        renderGroupsUI();
+      });
+      btnGroupsAdd?.addEventListener("click", () => loadGroupsIntoList("add"));
+      btnGroupsReplace?.addEventListener("click", () => loadGroupsIntoList("replace"));
 
       // =========================
       // RENDER
@@ -2418,10 +2448,7 @@
         try {
           ctx = new (window.AudioContext || window.webkitAudioContext)();
           master = ctx.createGain();
-
           master.gain.value = 1;
-
-          try { window.ctx = ctx; window.master = master; } catch { }
           master.connect(ctx.destination);
 
           const o = ctx.createOscillator();
@@ -2432,15 +2459,11 @@
           o.start();
           o.stop(ctx.currentTime + 0.02);
 
-          master.gain.value = 1;
-
           audioUnlocked = true;
         } catch {
           audioUnlocked = false;
         }
       }
-
-      try { window.unlockAudio = unlockAudio; window.ensureAudio = unlockAudio; } catch { }
 
       function tone(freq, dur = 0.12, type = "sine", vol = 0.08) {
         if (!ctx || !audioUnlocked) return;
@@ -2456,7 +2479,6 @@
         o.start(t0);
         o.stop(t0 + dur + 0.01);
       }
-      try { window.__tone = tone; } catch { }
 
       function whoosh(dur = 0.55) {
         if (!ctx || !audioUnlocked) return;
@@ -2490,40 +2512,6 @@
         tone(660, 0.12, "sine", 0.07);
         whoosh(0.35);
       }
-
-      // =========================
-      // GROUP ACTIONS
-      // =========================
-      function loadGroupsIntoList(mode /* 'replace' | 'add' */) {
-        unlockAudio();
-        const people = selectedPeople();
-        if (!people.length) {
-          showToast("Nenhum grupo selecionado.", "Selecione ao menos 1 grupo.");
-          return;
-        }
-
-        if (mode === "replace") {
-          names = []; // zera lista e carrega do zero
-          const { add } = uniqueMerge(people);
-          persist(); render();
-          showToast("Lista carregada.", `${add} participantes no sorteio.`);
-        } else {
-          const { add, dup } = uniqueMerge(people);
-          persist(); render();
-          showToast("Grupos adicionados.", `${add} adicionados • ${dup} já existiam`);
-        }
-      }
-
-      btnGroupsSelectAll?.addEventListener("click", () => {
-        Object.keys(GROUPS).forEach(id => selectedGroups.add(id));
-        renderGroupsUI();
-      });
-      btnGroupsClear?.addEventListener("click", () => {
-        selectedGroups.clear();
-        renderGroupsUI();
-      });
-      btnGroupsAdd?.addEventListener("click", () => loadGroupsIntoList("add"));
-      btnGroupsReplace?.addEventListener("click", () => loadGroupsIntoList("replace"));
 
       // --- ADD NAMES ---
       $("btnAdd").addEventListener("click", () => {
@@ -3002,16 +2990,13 @@
           const data = raw ? JSON.parse(raw) : {};
           const stagger = Number(document.getElementById('cfgStagger')?.value || 800);
 
-          const volume = 100;
-          const stage = true;
-
           data.cfg = {
             count: Number(cfgCount.value) || 5,
             sound: cfgSound.value === '1',
             theme: cfgTheme.value,
             stagger,
-            volume,
-            stage
+            volume: 100,
+            stage: true
           };
 
           localStorage.setItem(KEY, JSON.stringify(data));
