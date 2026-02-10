@@ -1991,6 +1991,19 @@
 
       // --- STATE ---
       const KEY = "rover_war_cinema_raffle_v1";
+      const SEED_DISABLED_KEY = `${KEY}_seed_disabled`;
+      const PREVIOUS_WINNERS = [
+        "EDUARDO ALVES DE SOUZA SILVA",
+        "CLEVERSON APARECIDO VANZELLA",
+        "FABIANO BATISTA DOS SANTOS",
+        "CLAUDIAMAR PAIXAO",
+        "MARCIA SENA",
+        "PATRICIO MORAES DE ANDRADE",
+        "ADILSON FONSECA",
+        "ANDRE JUNIOR DE SOUZA",
+        "EDSON LEITE DA SILVA",
+        "VALCIR TRINDADE"
+      ];
       let names = [];
       let winners = [];
       let lastUndo = null;
@@ -2049,6 +2062,8 @@
       const norm = (s) => (s || "").replace(/\s+/g, " ").trim();
       const stripDiacritics = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       const keyName = (s) => stripDiacritics(norm(s)).toLowerCase();
+      const seedKeys = new Set(PREVIOUS_WINNERS.map(keyName));
+      const isSeedWinner = (name) => seedKeys.has(keyName(name));
 
       function setScrollbarWidthVar() {
         const sbw = window.innerWidth - document.documentElement.clientWidth;
@@ -2085,13 +2100,33 @@
         document.body.classList.add('stage');
       }
 
+      function mergeSeedWinners(existing) {
+        const merged = Array.isArray(existing) ? existing.slice() : [];
+        const currentKeys = new Set(merged.map(w => keyName(w.name)));
+        PREVIOUS_WINNERS.forEach((name) => {
+          const k = keyName(name);
+          if (currentKeys.has(k)) return;
+          merged.push({ name, whenISO: nowISO(), prize: "—", seeded: true });
+          currentKeys.add(k);
+        });
+        return merged;
+      }
+
       function restore() {
         try {
           const raw = localStorage.getItem(KEY);
-          if (!raw) return;
+          const seedDisabled = localStorage.getItem(SEED_DISABLED_KEY) === "1";
+
+          if (!raw) {
+            names = [];
+            winners = seedDisabled ? [] : mergeSeedWinners([]);
+            return;
+          }
+
           const data = JSON.parse(raw);
           names = Array.isArray(data.names) ? data.names : [];
           winners = Array.isArray(data.winners) ? data.winners : [];
+          if (!seedDisabled) winners = mergeSeedWinners(winners);
           prize.value = data.prize || "";
           if (data.logo) {
             logoImg.src = data.logo;
@@ -2118,7 +2153,7 @@
       }
 
       // =========================
-      // GROUPS DATA (com Atacarejo I)
+      // GROUPS DATA (com Atacarejo I + novos setores)
       // =========================
       const GROUPS_RAW = {
         vendedores: [
@@ -2141,69 +2176,51 @@
           "ADEMILSON ALVES",
           "GABRIEL GOMES DE MACEDO"
         ],
-        distribuidora: [
-          "ANDREIA FERREIRA DA SILVA",
-          "ANIBAL SOUZA DE CASTRO",
+        administrativo: [
           "ARIELLY MICAELY LUIZ PEREIRA",
-          "ALAN CRISTHIAN PEREIRA DA SILVA",
           "BRUNA DE ASSIS PESSOA",
           "CAMILA ISAQUEL BATISTELLA",
-          "CRISTIANE GUADY DE OLIVEIRA",
-          "EDVAN DA SILVA PROTASIO",
           "EDUARDO ALVES DE SOUZA SILVA",
+          "JEFERSON ALEMÃO DA SILVA",
+          "JOSEFINA ROVER SOARES",
+          "KLEBER ROVER SOARES",
+          "MARIA EDUARDA DE OLIVEIRA BRITO",
+          "RYAN HUGO SOUSA DA SILVA",
+          "SARA RAIANE SILVA REIS",
+          "SIMONE FERREIRA MENDONÇA CALIXTO",
+          "TABATA ROVER DA SILVA",
+          "ARINEIA DE OLIVEIRA FREITAS",
+          "DIEUMIKA PRECOIT",
+          "VITOR GABRIEL TEIXEIRA MARI"
+        ],
+        deposito: [
+          "ANIBAL SOUZA DE CASTRO",
           "EDVANDERLAN XAVIER PEREIRA DA SILVA",
           "EIDER TALEVI",
           "EMERSON IGOR BARBOSA DE FREITAS",
           "ERILEZIO MOURA PEREIRA",
           "ERLI DA SILVA SOUZA",
           "FLAVIO SANTOS DA SILVA",
-          "GABRIEL LEONARDO PERPETUO DA LUZ",
-          "JEFERSON ALEMÃO DA SILVA",
-          "JESSICA GEANE PERES DE SOUZA",
           "JOSE FERNANDES NOGUEIRA",
-          "JOSEFINA ROVER SOARES",
-          "JULIA SILVA PEREIRA",
-          "KLEBER ROVER SOARES",
-          "LENIN ASSIS DE ASTRE JUNIOR",
-          "LETHANYARRE DE ANDRADE CAMPOS",
           "LUZIANE ARAUJO DA GAMA",
           "LUCAS DA SILVA SIMÃO",
           "MARCOS ANTONIO MATOS DE SOUZA",
-          "MARIA EDUARDA DE OLIVEIRA BRITO",
-          "ODERLEY OLIVEIRA NASCIMENTO",
-          "PALOMA CORREA DA SILVA PEREIRA",
-          "PATRICIO MORAES DE ANDRADE",
           "RADRIEL DURVAL PEREIRA DE SOUZA",
-          "ROSELI APARECIDA FONSECA",
-          "RYAN HUGO SOUSA DA SILVA",
-          "SARA RAIANE SILVA REIS",
-          "SIMONE FERREIRA MENDONÇA CALIXTO",
-          "TABATA ROVER DA SILVA",
           "TELMA NUNES DA SILVA",
-          "VICTOR SAID VARGAS AYALA",
-          "VERA LUCIA LIMA RODRIGUES",
-          "VITOR GABRIEL TEIXEIRA MARI",
-          "ADILSON FONSECA",
-          "ARINEIA DE OLIVEIRA FREITAS",
-          "CLEVERSON APARECIDO VANZELLA",
-          "CLOVIS CONTADINI FILHO",
-          "DANIEL GOMES",
-          "DIEUMIKA PRECOIT",
+          "VICTOR SAID VARGAS AYALA"
+        ],
+        motoristas: [
           "EMERSON DO CARMO LIMA",
           "EDINALDO ARAUJO",
           "EZEQUIAS MAGALHAES SALES",
           "FRANCINEY NOGUEIRA MAIA",
           "GABRIEL SARRADO DA SILVA",
           "GLADSON DA CRUZ LIMA",
-          "HAROLDO ROMARCIO ANDRADE SILVA",
           "IDIVAN NUNES MARQUES",
           "LAURINDO ROCHA BATISTA",
           "MOACIR ROCHA JUNIOR",
-          "RENATO STARK",
           "ROBERTO CARLOS MENDES LOBATO",
-          "TIAGO VIEIRA GUEDES",
-          "VANDRO DOS SANTOS",
-          "WEMERSON FERREIRA ALVES"
+          "TIAGO VIEIRA GUEDES"
         ],
         atacarejo1: [
           "ALUIZA GOMES REGO",
@@ -2246,17 +2263,16 @@
 
       const GROUPS = (() => {
         const sellers = uniqList(GROUPS_RAW.vendedores);
-        const sellerKeys = new Set(sellers.map(keyName));
-
-        const generalPre = uniqList(GROUPS_RAW.distribuidora);
-        // garante "geral sem vendedores"
-        const general = generalPre.filter(n => !sellerKeys.has(keyName(n)));
-
+        const administrativo = uniqList(GROUPS_RAW.administrativo);
+        const deposito = uniqList(GROUPS_RAW.deposito);
+        const motoristas = uniqList(GROUPS_RAW.motoristas);
         const atac1 = uniqList(GROUPS_RAW.atacarejo1);
 
         return {
           vendedores: { id: "vendedores", title: "Vendedores", desc: "Equipe de vendas", list: sellers },
-          distribuidora: { id: "distribuidora", title: "distribuidora", desc: "Participantes gerais (sem vendedores)", list: general },
+          administrativo: { id: "administrativo", title: "Administrativo", desc: "Equipe administrativa", list: administrativo },
+          deposito: { id: "deposito", title: "Depósito", desc: "Equipe do depósito", list: deposito },
+          motoristas: { id: "motoristas", title: "Motoristas e Motoboys", desc: "Equipe de entregas", list: motoristas },
           atacarejo1: { id: "atacarejo1", title: "Atacarejo I", desc: "Equipe Atacarejo I", list: atac1 }
         };
       })();
@@ -2276,7 +2292,10 @@
           agg.push(...g.list);
         }
         // remove duplicidade entre grupos
-        return uniqList(agg);
+        const unique = uniqList(agg);
+        // remove vencedores já confirmados
+        const winnerKeys = new Set((winners || []).map(w => keyName(w.name)));
+        return unique.filter(n => !winnerKeys.has(keyName(n)));
       }
 
       function updateGroupsMini() {
@@ -2823,7 +2842,8 @@
       });
 
       $("btnClearHistory").addEventListener("click", () => {
-        winners = [];
+        const seedDisabled = localStorage.getItem(SEED_DISABLED_KEY) === "1";
+        winners = seedDisabled ? [] : winners.filter(w => isSeedWinner(w.name));
         lastUndo = null;
         persist(); render();
         showToast("Histórico limpo.");
@@ -2853,6 +2873,7 @@
         if (!ok) return;
         names = []; winners = []; lastUndo = null; pendingWinner = null;
         localStorage.removeItem(KEY);
+        localStorage.setItem(SEED_DISABLED_KEY, "1");
         closeOverlay();
         applyStageMode(true);
         render();
